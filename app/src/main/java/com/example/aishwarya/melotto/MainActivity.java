@@ -1,7 +1,7 @@
 package com.example.aishwarya.melotto;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -16,12 +16,11 @@ import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //setSupportActionBar(toolbar);
 
 //        Parse.enableLocalDatastore(this);
 //
@@ -53,76 +52,9 @@ public class MainActivity extends AppCompatActivity {
                         if (user == null) {
                             Log.d("MyApp", "Uh oh. The user cancelled the Facebook login.");
                             Toast.makeText(getApplicationContext(), "Log-out from Facebook and try again please!", Toast.LENGTH_SHORT).show();
-                            ParseUser.logOut();
+                            //ParseUser.logOut();
                         } else if (user.isNew()) {
                             Log.d("MyApp", "User signed up and logged in through Facebook!");
-                            if (!ParseFacebookUtils.isLinked(user)) {
-                                ParseFacebookUtils.linkWithReadPermissionsInBackground(user, MainActivity.this, permissions, new SaveCallback() {
-                                    @Override
-                                    public void done(ParseException ex) {
-//                                        if (ParseFacebookUtils.isLinked(user)) {
-//                                            Log.d("MyApp", "Woohoo, user logged in with Facebook!");
-//
-////                                            proDialog.hide();
-//                                        }
-                                    }
-                                });
-                            }
-                            else{
-                                Toast.makeText(getApplicationContext(), "You can change your personal data in Settings tab!", Toast.LENGTH_SHORT).show();
-                            }
-
-                            //getUserDetailsFromFB();
-                        } else {
-                            Log.d("MyApp", "User logged in through Facebook!");
-                            //getUserDetailsFromParse();
-                            if (!ParseFacebookUtils.isLinked(user)) {
-                                ParseFacebookUtils.linkWithReadPermissionsInBackground(user, MainActivity.this, permissions, new SaveCallback() {
-                                    @Override
-                                    public void done(ParseException ex) {
-//                                        if (ParseFacebookUtils.isLinked(user)) {
-//                                            Log.d("MyApp", "Woohoo, user logged in with Facebook!");
-//
-////                                            proDialog.hide();
-//                                        }
-                                    }
-                                });
-                            }
-                            else{
-//                                proDialog.hide();
-                            }
-                        }
-                    }
-                });
-            }
-        });
-
-
-
-//
-//        final List<String> permissions = Arrays.asList("public_profile", "email");
-//
-//        fab.setOnClickListener(new View.OnClickListener()
-//        {
-//            public void onClick(View view)
-//            {
-////                proDialog.show();
-//
-//                ParseFacebookUtils.logInWithReadPermissionsInBackground(MainActivity.this, permissions, new LogInCallback() {
-//                    @Override
-//                    public void done(final ParseUser user, ParseException err) {
-//                        if (user == null) {
-//                            Log.d("MyApp", "Uh oh. The user cancelled the Facebook login.");
-//
-//                            Toast.makeText(getApplicationContext(), "Log-out from Facebook and try again please!", Toast.LENGTH_SHORT).show();
-//
-//                            ParseUser.logOut();
-//
-////                            proDialog.hide();
-//                        }
-//                        else if (user.isNew()) {
-//                            Log.d("MyApp", "User signed up and logged in through Facebook!");
-//
 //                            if (!ParseFacebookUtils.isLinked(user)) {
 //                                ParseFacebookUtils.linkWithReadPermissionsInBackground(user, MainActivity.this, permissions, new SaveCallback() {
 //                                    @Override
@@ -138,29 +70,33 @@ public class MainActivity extends AppCompatActivity {
 //                            else{
 //                                Toast.makeText(getApplicationContext(), "You can change your personal data in Settings tab!", Toast.LENGTH_SHORT).show();
 //                            }
-//                        } else {
-//                            Log.d("MyApp", "User logged in through Facebook!");
-//
+
+                            //getUserDetailsFromFB();
+                        } else {
+                            Log.d("MyApp", "User logged in through Facebook!");
+                            //getUserDetailsFromParse();
 //                            if (!ParseFacebookUtils.isLinked(user)) {
 //                                ParseFacebookUtils.linkWithReadPermissionsInBackground(user, MainActivity.this, permissions, new SaveCallback() {
 //                                    @Override
 //                                    public void done(ParseException ex) {
-//                                        if (ParseFacebookUtils.isLinked(user)) {
-//                                            Log.d("MyApp", "Woohoo, user logged in with Facebook!");
-//
-////                                            proDialog.hide();
-//                                        }
+////                                        if (ParseFacebookUtils.isLinked(user)) {
+////                                            Log.d("MyApp", "Woohoo, user logged in with Facebook!");
+////
+//////                                            proDialog.hide();
+////                                        }
 //                                    }
 //                                });
 //                            }
 //                            else{
 ////                                proDialog.hide();
 //                            }
-//                        }
-//                    }
-//                });
-//            }
-//        });
+                        }
+                    }
+                });
+            }
+        });
+
+
     }
 
     @Override
@@ -185,14 +121,14 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//
-//        // Logs 'install' and 'app activate' App Events.
-//        AppEventsLogger.activateApp(this);
-//
-//    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Logs 'install' and 'app activate' App Events.
+        AppEventsLogger.activateApp(getApplicationContext());
+
+    }
 
 
     @Override
@@ -200,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
 
         // Logs 'app deactivate' App Event.
-        AppEventsLogger.deactivateApp(this);
+        AppEventsLogger.deactivateApp(getApplicationContext());
     }
 
 
