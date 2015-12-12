@@ -14,7 +14,18 @@
     tools:context="com.example.aishwarya.melotto.MainActivity">
 
     <TextView
-        android:text="Hello World!"
+        android:text="Welcome to MeLotto!"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login with Facebook!"
+        android:id="@+id/fbBtn"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
