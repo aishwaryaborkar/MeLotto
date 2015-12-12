@@ -16,7 +16,6 @@ import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 
 import java.util.Arrays;
 import java.util.List;
@@ -53,44 +52,44 @@ public class MainActivity extends Activity {
                         if (user == null) {
                             Log.d("MyApp", "Uh oh. The user cancelled the Facebook login.");
                             Toast.makeText(getApplicationContext(), "Log-out from Facebook and try again please!", Toast.LENGTH_SHORT).show();
-                            ParseUser.logOut();
+                            //ParseUser.logOut();
                         } else if (user.isNew()) {
                             Log.d("MyApp", "User signed up and logged in through Facebook!");
-                            if (!ParseFacebookUtils.isLinked(user)) {
-                                ParseFacebookUtils.linkWithReadPermissionsInBackground(user, MainActivity.this, permissions, new SaveCallback() {
-                                    @Override
-                                    public void done(ParseException ex) {
+//                            if (!ParseFacebookUtils.isLinked(user)) {
+//                                ParseFacebookUtils.linkWithReadPermissionsInBackground(user, MainActivity.this, permissions, new SaveCallback() {
+//                                    @Override
+//                                    public void done(ParseException ex) {
 //                                        if (ParseFacebookUtils.isLinked(user)) {
 //                                            Log.d("MyApp", "Woohoo, user logged in with Facebook!");
 //
 ////                                            proDialog.hide();
 //                                        }
-                                    }
-                                });
-                            }
-                            else{
-                                Toast.makeText(getApplicationContext(), "You can change your personal data in Settings tab!", Toast.LENGTH_SHORT).show();
-                            }
+//                                    }
+//                                });
+//                            }
+//                            else{
+//                                Toast.makeText(getApplicationContext(), "You can change your personal data in Settings tab!", Toast.LENGTH_SHORT).show();
+//                            }
 
                             //getUserDetailsFromFB();
                         } else {
                             Log.d("MyApp", "User logged in through Facebook!");
                             //getUserDetailsFromParse();
-                            if (!ParseFacebookUtils.isLinked(user)) {
-                                ParseFacebookUtils.linkWithReadPermissionsInBackground(user, MainActivity.this, permissions, new SaveCallback() {
-                                    @Override
-                                    public void done(ParseException ex) {
-//                                        if (ParseFacebookUtils.isLinked(user)) {
-//                                            Log.d("MyApp", "Woohoo, user logged in with Facebook!");
-//
-////                                            proDialog.hide();
-//                                        }
-                                    }
-                                });
-                            }
-                            else{
-//                                proDialog.hide();
-                            }
+//                            if (!ParseFacebookUtils.isLinked(user)) {
+//                                ParseFacebookUtils.linkWithReadPermissionsInBackground(user, MainActivity.this, permissions, new SaveCallback() {
+//                                    @Override
+//                                    public void done(ParseException ex) {
+////                                        if (ParseFacebookUtils.isLinked(user)) {
+////                                            Log.d("MyApp", "Woohoo, user logged in with Facebook!");
+////
+//////                                            proDialog.hide();
+////                                        }
+//                                    }
+//                                });
+//                            }
+//                            else{
+////                                proDialog.hide();
+//                            }
                         }
                     }
                 });
