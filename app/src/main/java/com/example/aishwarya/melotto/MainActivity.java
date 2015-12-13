@@ -2,6 +2,7 @@ package com.example.aishwarya.melotto;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.Signature;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -34,6 +35,7 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.security.MessageDigest;
@@ -42,17 +44,20 @@ import java.util.Arrays;
 import java.util.List;
 
 
-
 public class MainActivity extends Activity {
-
-
 
     Button mBtnFb;
     TextView mUsername, mEmailID;
-    Profile mFbProfile;
     ParseUser parseUser;
     String name = null, email = null;
+    Bundle parameters;
 
+    public static final List<String> permissions = Arrays.asList("public_profile", "email");
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        ParseFacebookUtils.onActivityResult(requestCode, resultCode, data);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +69,7 @@ public class MainActivity extends Activity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
 
-//        ParseObject testObject = new ParseObject("TestObject");
-//        testObject.put("foo", "bar");
-//        testObject.saveInBackground();
+
 
         try {
             PackageInfo info = getPackageManager().getPackageInfo(
@@ -90,7 +93,6 @@ public class MainActivity extends Activity {
         mUsername = (TextView) findViewById(R.id.txt_name);
         mEmailID = (TextView) findViewById(R.id.txt_email);
 
-        final List<String> permissions = Arrays.asList("public_profile", "email");
         mBtnFb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,58 +101,22 @@ public class MainActivity extends Activity {
                     public void done(ParseUser user, ParseException err) {
                         if (user == null) {
                             Log.d("MyApp", "Uh oh. The user cancelled the Facebook login.");
-                            Toast.makeText(getApplicationContext(), "Log-out from Facebook and try again please!", Toast.LENGTH_SHORT).show();
-                            //ParseUser.logOut();
+
                         } else if (user.isNew()) {
                             Log.d("MyApp", "User signed up and logged in through Facebook!");
                             getUserDetailsFromFB();
-
-//                            if (!ParseFacebookUtils.isLinked(user)) {
-//                                ParseFacebookUtils.linkWithReadPermissionsInBackground(user, MainActivity.this, permissions, new SaveCallback() {
-//                                    @Override
-//                                    public void done(ParseException ex) {
-//                                        if (ParseFacebookUtils.isLinked(user)) {
-//                                            Log.d("MyApp", "Woohoo, user logged in with Facebook!");
-//
-////                                            proDialog.hide();
-//                                        }
-//                                    }
-//                                });
-//                            }
-//                            else{
-//                                Toast.makeText(getApplicationContext(), "You can change your personal data in Settings tab!", Toast.LENGTH_SHORT).show();
-//                            }
-
-
                         } else {
                             Log.d("MyApp", "User logged in through Facebook!");
-
+                            //getUserDetailsFromFB();
                             getUserDetailsFromParse();
-//                            if (!ParseFacebookUtils.isLinked(user)) {
-//                                ParseFacebookUtils.linkWithReadPermissionsInBackground(user, MainActivity.this, permissions, new SaveCallback() {
-//                                    @Override
-//                                    public void done(ParseException ex) {
-////                                        if (ParseFacebookUtils.isLinked(user)) {
-////                                            Log.d("MyApp", "Woohoo, user logged in with Facebook!");
-////
-//////                                            proDialog.hide();
-////                                        }
-//                                    }
-//                                });
-//                            }
-//                            else{
-////                                proDialog.hide();
-//                            }
                         }
                     }
                 });
             }
         });
 
-
     }
 
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -191,73 +157,55 @@ public class MainActivity extends Activity {
     }
 
     private void getUserDetailsFromFB() {
-        new GraphRequest(
 
-                AccessToken.getCurrentAccessToken(),
-                "/me",
-                null,
-                HttpMethod.GET,
-                new GraphRequest.Callback() {
-                    public void onCompleted(GraphResponse response) {
-           /* handle the result */
-                        try {
-                            email = response.getJSONObject().getString("email");
-                           // mEmailID.setText(email);
-                            name = response.getJSONObject().getString("name");
-                           //mUsername.setText(name);
-                            saveNewUser();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
+        GraphRequest request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+            @Override
+            public void onCompleted(JSONObject jsonObject, GraphResponse response) {
+                try {
+                    name = jsonObject.getString("name");
+                    Log.d("response returned: ", response.toString());
+                } catch(JSONException e){
+
+                    e.printStackTrace();
                 }
-        ).executeAsync();
-        ProfilePhotoAsync profilePhotoAsync = new ProfilePhotoAsync(mFbProfile);
-        profilePhotoAsync.execute();
+                try {
+                    email = jsonObject.getString("email");
+
+                } catch(JSONException e){
+
+                    e.printStackTrace();
+                }
+                saveNewUser();
+            }
+
+        });
+
+        parameters = new Bundle();
+        parameters.putString("fields", "name,email");
+        request.setParameters(parameters);
+        request.executeAsync();
+
+
+
     }
 
     private void saveNewUser() {
         parseUser = ParseUser.getCurrentUser();
         parseUser.setUsername(name);
-        parseUser.setEmail(email);
-//        Saving profile photo as a ParseFile
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        //Bitmap bitmap = ((BitmapDrawable) mProfileImage.getDrawable()).getBitmap();
-       // bitmap.compress(Bitmap.CompressFormat.JPEG, 70, stream);
-        //byte[] data = stream.toByteArray();
-        //String thumbName = parseUser.getUsername().replaceAll("\\s+", "");
-       // final ParseFile parseFile = new ParseFile(thumbName + "_thumb.jpg", data);
-//       parseFile.saveInBackground(new SaveCallback() {
-//           @Override
-//           public void done(ParseException e) {
-//               parseUser.put("profileThumb", parseFile);
-//               //Finally save all the user details
-//
-//          }
-//      });
-
+        //parseUser.setEmail(email);
         parseUser.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                Toast.makeText(MainActivity.this, "New user:" + name + " Signed up", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "New User : " + name + "SignedUp", Toast.LENGTH_LONG).show();
             }
         });
-    }
 
+    }
     private void getUserDetailsFromParse() {
         parseUser = ParseUser.getCurrentUser();
-//Fetch profile photo
-//        try {
-//            ParseFile parseFile = parseUser.getParseFile("profileThumb");
-//            byte[] data = parseFile.getData();
-//            Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-//            mProfileImage.setImageBitmap(bitmap);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-        mEmailID.setText(parseUser.getEmail());
         mUsername.setText(parseUser.getUsername());
-        Toast.makeText(MainActivity.this, "Welcome back " + mUsername.getText().toString(), Toast.LENGTH_SHORT).show();
+       // mEmailID.setText(parseUser.getEmail());
+        Toast.makeText(MainActivity.this, "Welcome back " +  mUsername.getText().toString(), Toast.LENGTH_LONG).show();
     }
 
 

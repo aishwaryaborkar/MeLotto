@@ -7,7 +7,7 @@ import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
 
 /**
- * Created by kborkar on 12/11/15.
+ * Created by kborkar on 1s2/11/15.
  */
 public class MyApp extends Application {
 
