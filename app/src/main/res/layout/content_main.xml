@@ -21,11 +21,18 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp" />
 
+
+
     <Button
+        android:id="@+id/btn_fb_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login with Facebook!"
-        android:id="@+id/fbBtn"
+        android:layout_marginTop="24dp"
+        android:background="@color/com_facebook_blue"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:text="Login via Facebook"
+        android:textColor="@android:color/white" />
 </RelativeLayout>

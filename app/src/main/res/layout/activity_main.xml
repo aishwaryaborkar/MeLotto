@@ -8,19 +8,35 @@
     android:fitsSystemWindows="true"
     tools:context="com.example.aishwarya.melotto.MainActivity">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_height="wrap_content"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+
+
+        <TextView
+            android:id="@+id/txt_name"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="Name"
+            android:textColor="@color/abc_secondary_text_material_light" />
 
-    </android.support.design.widget.AppBarLayout>
+        <TextView
+            android:id="@+id/txt_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="Email"
+            android:textColor="@color/abc_secondary_text_material_light" />
+
+
+    </LinearLayout>
 
     <include layout="@layout/content_main"/>
 
