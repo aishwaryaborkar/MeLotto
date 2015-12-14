@@ -3,9 +3,9 @@ package com.example.aishwarya.melotto;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.pm.Signature;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
@@ -16,28 +16,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.HttpMethod;
-import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
 import com.parse.LogInCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
-import com.parse.ParseFile;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -51,6 +43,8 @@ public class MainActivity extends Activity {
     ParseUser parseUser;
     String name = null, email = null;
     Bundle parameters;
+
+
 
     public static final List<String> permissions = Arrays.asList("public_profile", "email");
 
@@ -93,7 +87,10 @@ public class MainActivity extends Activity {
         mUsername = (TextView) findViewById(R.id.txt_name);
         mEmailID = (TextView) findViewById(R.id.txt_email);
 
+
+
         mBtnFb.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 ParseFacebookUtils.logInWithReadPermissionsInBackground(MainActivity.this, permissions, new LogInCallback() {
