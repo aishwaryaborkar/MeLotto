@@ -3,9 +3,9 @@ package com.example.aishwarya.melotto;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.pm.Signature;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
@@ -16,28 +16,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.HttpMethod;
-import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
 import com.parse.LogInCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
-import com.parse.ParseFile;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -51,6 +43,9 @@ public class MainActivity extends Activity {
     ParseUser parseUser;
     String name = null, email = null;
     Bundle parameters;
+    Bundle activityParams;
+
+
 
     public static final List<String> permissions = Arrays.asList("public_profile", "email");
 
@@ -70,7 +65,7 @@ public class MainActivity extends Activity {
         //setSupportActionBar(toolbar);
 
 
-
+        activityParams = new Bundle();
         try {
             PackageInfo info = getPackageManager().getPackageInfo(
                     "com.example.aishwarya.melotto",
@@ -93,7 +88,10 @@ public class MainActivity extends Activity {
         mUsername = (TextView) findViewById(R.id.txt_name);
         mEmailID = (TextView) findViewById(R.id.txt_email);
 
+
+
         mBtnFb.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 ParseFacebookUtils.logInWithReadPermissionsInBackground(MainActivity.this, permissions, new LogInCallback() {
@@ -164,12 +162,14 @@ public class MainActivity extends Activity {
                 try {
                     name = jsonObject.getString("name");
                     Log.d("response returned: ", response.toString());
+                    activityParams.putString("name", name);
                 } catch(JSONException e){
 
                     e.printStackTrace();
                 }
                 try {
                     email = jsonObject.getString("email");
+//                    activityParams.putString("email", email);
 
                 } catch(JSONException e){
 
@@ -184,6 +184,9 @@ public class MainActivity extends Activity {
         parameters.putString("fields", "name,email");
         request.setParameters(parameters);
         request.executeAsync();
+        Intent tutorialActivity = new Intent(MainActivity.this, TutorialActivity.class);
+        tutorialActivity.putExtras(activityParams);
+        startActivity(tutorialActivity);
 
 
 
@@ -204,8 +207,14 @@ public class MainActivity extends Activity {
     private void getUserDetailsFromParse() {
         parseUser = ParseUser.getCurrentUser();
         mUsername.setText(parseUser.getUsername());
+        activityParams.putString("name", parseUser.getUsername());
+        //activityParams.putString("email", parseUser.getEmail());
        // mEmailID.setText(parseUser.getEmail());
         Toast.makeText(MainActivity.this, "Welcome back " +  mUsername.getText().toString(), Toast.LENGTH_LONG).show();
+        Intent tutorialActivity = new Intent(MainActivity.this, TutorialActivity.class);
+        tutorialActivity.putExtras(activityParams);
+        startActivity(tutorialActivity);
+
     }
 
 
