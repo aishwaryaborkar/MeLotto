@@ -13,7 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/moneygreen">
 
         <TextView
             android:text="Welcome to MeLotto!"
@@ -21,7 +22,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="50dp" />
+            android:layout_marginTop="50dp"
+            android:fontFamily="sans-serif-light"
+            android:textSize="30dp"
+            android:textColor="#FFFFFF"/>
 
         <TextView
             android:id="@+id/txt_name"
