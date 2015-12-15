@@ -43,6 +43,7 @@ public class MainActivity extends Activity {
     ParseUser parseUser;
     String name = null, email = null;
     Bundle parameters;
+    Bundle activityParams;
 
 
 
@@ -64,7 +65,7 @@ public class MainActivity extends Activity {
         //setSupportActionBar(toolbar);
 
 
-
+        activityParams = new Bundle();
         try {
             PackageInfo info = getPackageManager().getPackageInfo(
                     "com.example.aishwarya.melotto",
@@ -161,12 +162,14 @@ public class MainActivity extends Activity {
                 try {
                     name = jsonObject.getString("name");
                     Log.d("response returned: ", response.toString());
+                    activityParams.putString("name", name);
                 } catch(JSONException e){
 
                     e.printStackTrace();
                 }
                 try {
                     email = jsonObject.getString("email");
+//                    activityParams.putString("email", email);
 
                 } catch(JSONException e){
 
@@ -181,6 +184,9 @@ public class MainActivity extends Activity {
         parameters.putString("fields", "name,email");
         request.setParameters(parameters);
         request.executeAsync();
+        Intent tutorialActivity = new Intent(MainActivity.this, TutorialActivity.class);
+        tutorialActivity.putExtras(activityParams);
+        startActivity(tutorialActivity);
 
 
 
@@ -201,8 +207,14 @@ public class MainActivity extends Activity {
     private void getUserDetailsFromParse() {
         parseUser = ParseUser.getCurrentUser();
         mUsername.setText(parseUser.getUsername());
+        activityParams.putString("name", parseUser.getUsername());
+        //activityParams.putString("email", parseUser.getEmail());
        // mEmailID.setText(parseUser.getEmail());
         Toast.makeText(MainActivity.this, "Welcome back " +  mUsername.getText().toString(), Toast.LENGTH_LONG).show();
+        Intent tutorialActivity = new Intent(MainActivity.this, TutorialActivity.class);
+        tutorialActivity.putExtras(activityParams);
+        startActivity(tutorialActivity);
+
     }
 
 
