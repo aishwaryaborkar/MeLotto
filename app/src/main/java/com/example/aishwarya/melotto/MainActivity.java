@@ -35,7 +35,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.List;
 
-
+/**
+ * MainActivity that is launched when MeLotto is installed.
+ */
 public class MainActivity extends Activity {
 
     Button mBtnFb;
@@ -46,7 +48,9 @@ public class MainActivity extends Activity {
     Bundle activityParams;
 
 
-
+    /**
+     * Permissions needed for Facebook.
+     */
     public static final List<String> permissions = Arrays.asList("public_profile", "email");
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -66,6 +70,9 @@ public class MainActivity extends Activity {
 
 
         activityParams = new Bundle();
+        /**
+         * Generates key hash for Facebook app.
+         */
         try {
             PackageInfo info = getPackageManager().getPackageInfo(
                     "com.example.aishwarya.melotto",
@@ -89,7 +96,10 @@ public class MainActivity extends Activity {
         mEmailID = (TextView) findViewById(R.id.txt_email);
 
 
-
+        /**
+         * Controller aspect of MVC architecture that listens for actions triggered by selecting
+         * Facebook login.
+         */
         mBtnFb.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -154,6 +164,10 @@ public class MainActivity extends Activity {
         AppEventsLogger.deactivateApp(getApplicationContext());
     }
 
+    /**
+     * Sends Graph API request to Facebook to obtain user name and email.
+     * Triggers the TutorialActivity.
+     */
     private void getUserDetailsFromFB() {
 
         GraphRequest request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
@@ -192,6 +206,9 @@ public class MainActivity extends Activity {
 
     }
 
+    /**
+     * Saves user details to Parse i.e. creates a new ParseUser.
+     */
     private void saveNewUser() {
         parseUser = ParseUser.getCurrentUser();
         parseUser.setUsername(name);
@@ -204,6 +221,11 @@ public class MainActivity extends Activity {
         });
 
     }
+
+    /**
+     * For a returning user who has already authorized Parse to gather his/her info from Facebook.
+     * Triggers the TutorialActivity.
+     */
     private void getUserDetailsFromParse() {
         parseUser = ParseUser.getCurrentUser();
         mUsername.setText(parseUser.getUsername());
