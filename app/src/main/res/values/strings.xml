@@ -4,4 +4,8 @@
     <string name="facebook_app_id">1519299815048582</string>
     <string name="title_activity_tutorial">TutorialActivity</string>
     <color name="moneygreen">#328bf1</color>
+    <string name="step1">Add new Lottery Tickets by selecting "+" button. </string>
+    <string name="step2">Add new Lotteries by selecting "+" button.</string>
+    <string name="username"></string>
+
 </resources>

@@ -19,9 +19,27 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
+
+
+        <CheckBox android:id="@+id/checkbox_meat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/step1"
+            android:onClick="onCheckboxClicked"/>
+        <CheckBox android:id="@+id/checkbox_cheese"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/step2"
+            android:onClick="onCheckboxClicked" />
+
+
+
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_tutorial" />
+
+
+
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -30,5 +48,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:src="@android:drawable/ic_dialog_email" />
+
+
 
 </android.support.design.widget.CoordinatorLayout>

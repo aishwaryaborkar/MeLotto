@@ -22,6 +22,9 @@ import java.util.List;
 public class LotteryTicket extends ParseObject {
 
     private String lotteryName;
+
+
+
     private String lotteryDrawDate;
     private List<Integer> lotteryTicketNumbers;
     private File lotteryTicket;
@@ -40,6 +43,38 @@ public class LotteryTicket extends ParseObject {
         lotteryTicketNumbers = numbers;
         lotteryTicket = ticket;
 
+    }
+
+    public String getLotteryName() {
+        return lotteryName;
+    }
+
+    public void setLotteryName(String lotteryName) {
+        this.lotteryName = lotteryName;
+    }
+
+    public String getLotteryDrawDate() {
+        return lotteryDrawDate;
+    }
+
+    public void setLotteryDrawDate(String lotteryDrawDate) {
+        this.lotteryDrawDate = lotteryDrawDate;
+    }
+
+    public List<Integer> getLotteryTicketNumbers() {
+        return lotteryTicketNumbers;
+    }
+
+    public void setLotteryTicketNumbers(List<Integer> lotteryTicketNumbers) {
+        this.lotteryTicketNumbers = lotteryTicketNumbers;
+    }
+
+    public File getLotteryTicket() {
+        return lotteryTicket;
+    }
+
+    public void setLotteryTicket(File lotteryTicket) {
+        this.lotteryTicket = lotteryTicket;
     }
 
     /**

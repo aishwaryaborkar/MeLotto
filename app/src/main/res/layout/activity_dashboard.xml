@@ -9,4 +9,16 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.aishwarya.melotto.DashboardActivity">
 
+    <TextView
+        android:text="Welcome to MeLotto!"
+        android:id="@+id/txt_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:fontFamily="sans-serif-light"
+        android:textSize="30dp"
+        android:textColor="#FFFFFF"/>
+
 </RelativeLayout>
